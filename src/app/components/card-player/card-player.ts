@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import Player from '../../models/player';
 @Component({
   selector: 'app-card-player',
   imports: [MatCardModule, MatButtonModule, MatBadgeModule, MatIconModule],
@@ -11,10 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardPlayer {
-  name = 'José Mimbela';
-  occupation = 'Vendedor';
-  weigth_initial = 0;
-  weigth_final = 0;
-  votes = 0;
-
+  @Input() names: string = "";
+  @Input() ocupation: string = "";
+  @Input() weigth_start: number = 0;
+  @Input() weigth_end: number = 0;
+  @Input() votes: number = 0;
 }

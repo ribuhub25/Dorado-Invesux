@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Hola! Sr(a)</h2>
+<mat-dialog-content [formGroup]="form">
+  <p>¿Cúal es tu nombre?</p>
+  <mat-form-field>
+    <mat-label>Nombres</mat-label>
+    <input matInput formControlName="names"/>
+  </mat-form-field>
+
+  <p>¿Cuánto Pesas (en kg)?</p>
+  <mat-form-field>
+    <mat-label>Peso Inicial</mat-label>
+    <input matInput formControlName="weigth_start" type="number"/>
+  </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="onNoClick()">No, Gracias</button>
+  <button matButton (click)="insertPlayer()" cdkFocusInitial>Participar</button>
+</mat-dialog-actions>

@@ -2,12 +2,16 @@
 <div class="container">
   <div class="container__section">PARTICIPANTES</div>
   <div class="container__players">
-    <app-card-player></app-card-player>
-    <app-card-player></app-card-player>
-    <app-card-player></app-card-player>
-    <app-card-player></app-card-player>
-    <app-card-player></app-card-player>
-    <app-card-player></app-card-player>
+    @for (ply of players; track ply.id) {
+    <app-card-player 
+      [names]="ply.names" 
+      [weigth_start]="ply.weigth_start" 
+      [weigth_end]="ply.weigth_end"
+      [votes]="ply.votes"
+      />
+    } @empty {
+    <div>No hay elementos disponibles.</div>
+    }
   </div>
 </div>
 

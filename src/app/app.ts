@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from "./components/navbar/navbar";
 import { CardPlayer } from "./components/card-player/card-player";
 import { MatTableModule } from '@angular/material/table';
+import { Supabase } from './services/supabase/supabase';
+import Player from './models/player';
+import Tables from './models/core';
 
 export interface VotationsDetail {
   name: string;
@@ -30,8 +33,20 @@ const ELEMENT_DATA: VotationsDetail[] = [
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App{
   protected readonly title = signal('invesux_sort');
+  private readonly _supabase = inject(Supabase);
+  players : Player[] | null = [];
+
   displayedColumns: string[] = ['name', 'winner', 'weight', 'cost'];
   dataSource = ELEMENT_DATA;
+
+  async ngOnInit(): Promise<void> {
+    //ACTUALIZA CADA VEZ QUE SE INSERTA UNO NUEVO
+    this._supabase.players$.subscribe(data => {
+      this.players = data;
+    });
+
+    this.players =  await this._supabase.getPlayers();
+  }
 }
