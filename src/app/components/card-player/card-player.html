@@ -1,0 +1,25 @@
+<mat-card class="container" appearance="outlined">
+  <mat-icon matBadge="{{votes}}" class="container__votes">how_to_vote</mat-icon>
+  <mat-card-header class="container__header">
+    <mat-card-title>{{name}}</mat-card-title>
+    <mat-card-subtitle>{{occupation}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="assets/avatar-men.png" alt="Photo of player">
+  <mat-card-content>
+  <table class="container__table">
+    <tbody>
+      <tr>
+        <td>PESO INICIAL:</td>
+        <td><b>{{ weigth_initial }}</b> KG</td>
+      </tr>
+      <tr>
+        <td>PESO FINAL:</td>
+        <td><b>{{ (weigth_final == 0 ? "???" : weigth_final) }}</b> KG</td>
+      </tr>
+    </tbody>
+  </table>
+  </mat-card-content>
+  <mat-card-actions class="container__actions">
+    <button matButton="filled">VOTAR</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 30px 30px;
+  &__section{
+    background-color: rgb(1, 1, 85);
+    padding: 10px;
+    width: 5%;
+    color: white;
+    writing-mode: vertical-lr; /* o vertical-lr */
+    text-orientation: mixed;
+    font-size: xx-large;
+    font-weight: bolder;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente (X) */
+    align-items: center; /* Centra verticalmente (y) */
+    border-radius: 20px;
+  }
+  &__players {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  &__votations{
+    width: 90%;
+    padding-left: 20px;
+  }
+}
+
+.ad-container{
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,21 @@
+.container {
+  max-width: 200px;
+  text-align: center;
+  &__votes{
+    align-self: self-end;
+  }
+  &__header{
+    justify-content: space-around;
+    padding-bottom: 10px;
+    padding-top: 5px;
+  }
+  &__actions{
+    justify-content: space-around;
+    padding-bottom: 20px;
+  }
+  &__table{
+    padding-top: 10px;
+    justify-self: center;
+  }
+}
+
