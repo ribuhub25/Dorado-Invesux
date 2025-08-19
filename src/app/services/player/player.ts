@@ -27,4 +27,21 @@ export class PlayerService {
     const { data: player, error } = await this._supabaseService.supabase.from("player").select('*').eq('name', name).single()
     return player
   }
+
+  async getPlayerById(id: number): Promise<Player | null>  {
+    const { data: player, error } = await this._supabaseService.supabase.from("player").select('*').eq('id', id).single()
+    if (player) {
+      //ACTUALIZAR EL CONTADOR AQUI
+      //this._voteService.getCount(player.votes);
+    }
+    return player
+  }
+
+  async updateCounter(id: number){
+    var playerFind = await this.getPlayerById(id);
+    console.log(playerFind);
+    if(!playerFind) return false;
+    const { data, error } = await this._supabaseService.supabase.from("player").update({ votes: playerFind?.votes + 1 }).eq('id', id).select();
+    return !error
+  }
 }

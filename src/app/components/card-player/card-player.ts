@@ -29,7 +29,7 @@ export class CardPlayer {
   @Input() weigth_start: number = 0;
   @Input() weigth_end: number = 0;
   @Input() votes: number = 0;
-  @Input() winnerId: number = 0;
+  @Input() id: number = 0;
 
   private _playerService = inject(PlayerService);
   private _votationService = inject(VoteService);
@@ -38,15 +38,19 @@ export class CardPlayer {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogVotePlayer,{
       data: {
-        winner_id: this.winnerId,
+        winner_id: this.id,
         winner_name: this.names
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //ACTUALIZA CADA VEZ QUE SE EMITE UN VOTO
+      this._votationService.count$.subscribe(data => {
+        this.votes = data;
+      });
     });
   }
+
 }
 
 @Component({
@@ -60,7 +64,6 @@ export class CardPlayer {
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     ReactiveFormsModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush

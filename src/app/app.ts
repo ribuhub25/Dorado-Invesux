@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Navbar } from "./components/navbar/navbar";
 import { CardPlayer } from "./components/card-player/card-player";
 import { MatTableModule } from '@angular/material/table';
@@ -10,7 +9,7 @@ import { VoteService } from './services/vote/vote';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, CardPlayer, MatTableModule],
+  imports: [ Navbar, CardPlayer, MatTableModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

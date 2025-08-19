@@ -38,7 +38,6 @@ export class Navbar {
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     ReactiveFormsModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
