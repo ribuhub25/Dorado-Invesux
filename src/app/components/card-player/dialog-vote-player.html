@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Hola! Sr(a) su voto es para {{ winnerName }}</h2>
+<mat-dialog-content [formGroup]="form">
+  <p>¿Cúal es tu nombre?</p>
+  <mat-form-field style="width: 100%;">
+    <mat-label>Nombres</mat-label>
+    <input matInput formControlName="name"/>
+  </mat-form-field>
+
+  <p>Indica el peso Probable (en kg)</p>
+  <mat-form-field style="width: 100%;">
+    <mat-label>Peso Final Esperado</mat-label>
+    <input matInput formControlName="weigth" type="number"/>
+  </mat-form-field>
+
+  <p>Cuanto es tu apuesta (en S/.)</p>
+  <mat-form-field style="width: 100%;">
+    <mat-label>Apuesta</mat-label>
+    <input matInput formControlName="cost" type="number"/>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button matButton (click)="onNoClick()">No, Gracias</button>
+  <button matButton (click)="insertVote()" cdkFocusInitial>Votar</button>
+</mat-dialog-actions>

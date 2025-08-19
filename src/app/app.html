@@ -8,9 +8,10 @@
       [weigth_start]="ply.weigth_start" 
       [weigth_end]="ply.weigth_end"
       [votes]="ply.votes"
+      [winnerId]="ply.id"
       />
     } @empty {
-    <div>No hay elementos disponibles.</div>
+    <div>No hay participantes disponibles.</div>
     }
   </div>
 </div>
@@ -18,36 +19,38 @@
 <div class="container">
   <div class="container__section">VOTACIONES</div>
   <div class="container__votations">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-      <!-- Position Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>VOTANTE</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="winner">
-        <th mat-header-cell *matHeaderCellDef>CABALLO GANADOR</th>
-        <td mat-cell *matCellDef="let element">{{ element.winner }}</td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef>PESO PROBABLE (Kg) </th>
-        <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="cost">
-        <th mat-header-cell *matHeaderCellDef>APUESTA (S/.) </th>
-        <td mat-cell *matCellDef="let element">{{ element.cost }}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    @if(this.dataSource && this.dataSource.length > 0){
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>VOTANTE</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+  
+        <!-- Name Column -->
+        <ng-container matColumnDef="winner">
+          <th mat-header-cell *matHeaderCellDef>CABALLO GANADOR</th>
+          <td mat-cell *matCellDef="let element">{{ element.winner }}</td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weigth">
+          <th mat-header-cell *matHeaderCellDef>PESO PROBABLE (Kg) </th>
+          <td mat-cell *matCellDef="let element">{{ element.weigth }}</td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef>APUESTA (S/.) </th>
+          <td mat-cell *matCellDef="let element">{{ element.cost }}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    }@else {
+      <div>No hay apostadores disponibles.</div>
+    }
   </div>
 </div>
