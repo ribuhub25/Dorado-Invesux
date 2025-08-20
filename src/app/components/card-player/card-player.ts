@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PlayerService } from '../../services/player/player';
 import { VoteService } from '../../services/vote/vote';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import Votation from '../../models/votation';
@@ -32,8 +32,7 @@ export class CardPlayer {
   @Input() id: number = 0;
 
   private _playerService = inject(PlayerService);
-  private _votationService = inject(VoteService);
-  
+
   readonly dialog = inject(MatDialog);
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogVotePlayer,{
@@ -44,10 +43,9 @@ export class CardPlayer {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      //ACTUALIZA CADA VEZ QUE SE EMITE UN VOTO
-      this._votationService.count$.subscribe(data => {
-        this.votes = data;
-      });
+      if(result != undefined) {
+        this.votes = this.votes + 1;
+      }
     });
   }
 
@@ -78,13 +76,13 @@ export class DialogVotePlayer implements OnInit{
   constructor(
     private fb: FormBuilder
   ) {}
-  
+
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: "",
-      weigth: 0,
+      name: ['', [Validators.required, Validators.maxLength(25)]],
+      weigth: [0, [Validators.required, Validators.min(40)]],
       winner: this.winnerId,
-      cost: 0
+      cost: [0, [Validators.required, Validators.min(10)]],
     });
   }
 
@@ -92,9 +90,12 @@ export class DialogVotePlayer implements OnInit{
     this.dialogRef.close();
   }
 
-  async insertVote(){
-    var data: Votation = this.form.value;
-    var response = await this._votationService.insertVote(this.form.value);
-    if(response) this.dialogRef.close();
+  async insertVote() {
+    if(this.form.valid) {
+      var response = await this._votationService.insertVote(this.form.value);
+      if(response) this.dialogRef.close({ response });
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
 }

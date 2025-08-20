@@ -9,21 +9,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlayerService } from '../../services/player/player';
+import { VoteService } from '../../services/vote/vote';
 @Component({
   selector: 'app-navbar',
   imports: [MatIconModule, MatButtonModule, MatToolbarModule, MatCardModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Navbar {
   readonly dialog = inject(MatDialog);
+  private readonly _playerService = inject(PlayerService);
+  private readonly _voteService = inject(VoteService);
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogNewPlayer);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  }
+  async refreshData() {
+    await this._playerService.deleteAllPlayers();
+    await this._voteService.deleteAllVotes();
+    await this._playerService.getPlayers();
+    await this._voteService.getVotes();
   }
 }
 
@@ -47,11 +52,11 @@ export class DialogNewPlayer implements OnInit{
   private readonly _playerService = inject(PlayerService);
   public data = inject(MAT_DIALOG_DATA);
   public form!: FormGroup;
-  
+
   constructor(
     private fb: FormBuilder
   ) {}
-  
+
   ngOnInit(): void {
     this.form = this.fb.group({
       names: "",

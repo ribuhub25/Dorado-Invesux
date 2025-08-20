@@ -5,43 +5,45 @@ import Votation from '../../models/votation';
 import { PlayerService } from '../player/player';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VoteService {
-
   private votationsSubject = new BehaviorSubject<Votation[]>([]);
-  private countSubject = new BehaviorSubject<number>(0);
-  count$ = this.countSubject.asObservable();
   votation$ = this.votationsSubject.asObservable();
 
   constructor(private _supabaseService: SupabaseService, private _playerService: PlayerService) {}
 
-  getCount(count: number) {
-    this.countSubject.next(count);
-  }
-
-  async insertVote(votation: Votation): Promise<boolean> {
-    //OBTENER COUNT DE INICIO
-    this._playerService.getPlayerById(votation.winner).then(player => {
-      if(player) this.getCount(player.votes);
-    });
-    const { data, error } = await this._supabaseService.supabase.from("votation").insert(votation).select();
-    if(data){
+  async insertVote(votation: Votation): Promise<Votation[] | null> {
+    const { data, error } = await this._supabaseService.supabase
+      .from('votation')
+      .insert(votation)
+      .select();
+    if (error) {
+      console.error('Error inserting vote:', error);
+      return null;
+    }
+    if (data) {
       //ACTUALIZAR TABLA
       this.votationsSubject.next([...this.votationsSubject.value, data[0]]);
-      //ACTUALIZAR TABLA DE JUGADORES
+      //ACTUALIZAR VOTO DE JUGADOR
       await this._playerService.updateCounter(votation.winner);
-      //ACTUALIZAR CONTADOR
-      this.countSubject.next(this.countSubject.value + 1);
     }
-    return !error
+    return data;
   }
 
-  async getVotes(): Promise<Votation[] | null>  {
-    const { data: votation, error } = await this._supabaseService.supabase.from("votation").select('*')
+  async getVotes(): Promise<Votation[] | null> {
+    const { data: votation, error } = await this._supabaseService.supabase
+      .from('votation')
+      .select('*');
     this.votationsSubject.next(votation ?? []);
-    return votation
+    return votation;
   }
-
-
+  async deleteAllVotes(): Promise<boolean> {
+    const { data, error } = await this._supabaseService.supabase
+      .from('votation')
+      .delete()
+      .neq('id', 0);
+    if (error) { this.votationsSubject.next([]); }
+    return !error;
+  }
 }
