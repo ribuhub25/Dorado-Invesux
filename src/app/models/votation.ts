@@ -1,4 +1,4 @@
-interface Votation{
+export interface Votation{
     id: number
     created_at: Date,
     name: string,
@@ -7,4 +7,13 @@ interface Votation{
     cost: number
 }
 
-export default Votation;
+export interface VotationDTO {
+  id: number;
+  name: string;
+  winner: number;
+  winner_txt: string;
+  weigth: number;
+  cost: number;
+  created_at: string;
+}
+
